@@ -1,0 +1,8 @@
+<h1>Alle Profile</h1>
+<ul>
+    {% for profile in all_profiles %}
+        {{ profile.user }}<br>
+        <img src="{{ profile.profile_picture.url }}" height="150" width="150" alt="">
+        <br>
+    {% endfor %}
+</ul>
