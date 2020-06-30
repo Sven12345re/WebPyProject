@@ -9,6 +9,9 @@
         <img src="{{ user.profile.profile_picture.url }}" height="150" width="150"><br>
         <a href="{% url 'allProfile' %}">Zu den Profilen</a><br>
         <a href="{% url 'logout' %}">logout</a>
+        <br>
+      <a href="{% url 'product-create' %}"> create a product</a>
+
     {% else %}
         <p>You are not logged in</p>
         <a href="{% url 'login' %}">login</a>
