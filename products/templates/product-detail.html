@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+
+{% block title %}Book detail{% endblock %}
+
+{% block content %}
+<h2>Book detail</h2>
+
+    <table>
+    <tr>
+        <td><b>Title:</b></td>
+        <td>{{ that_one_product.title }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Subtitle:</b></td>
+        <td>{{ that_one_product.Desc }}<br></td>
+    </tr>
+
+    <tr>
+        <td><b>Type:</b></td>
+        <td>{{ that_one_product.get_type_display }}<br></td>
+    </tr>
+
+    <tr>
+        <td><b>Date published:</b></td>
+        <td>{{ that_one_product.date_published }}<br></td>
+    </tr>
+    <tr>
+        <td><b>Entered by:</b></td>
+        <td>{{ that_one_product.user }}<br></td>
+    </tr>
+    </table>
+
+    <br>
+    <a href="{% url 'product-list' %}">Back to all products</a>
+{% endblock %}
