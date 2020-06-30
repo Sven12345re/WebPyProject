@@ -22,9 +22,14 @@ class ProductDetailView(DetailView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
+    form_class
     context_object_name = 'products'
     template_name = 'product-create.html'  # Default: book_form.html
     success_url = reverse_lazy('product-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 

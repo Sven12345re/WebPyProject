@@ -13,7 +13,7 @@ class Product(models.Model):
 
     title = models.CharField(max_length=100)
     Desc = models.CharField(max_length=100,
-                                blank=True)
+                            blank=True)
 
     date_published = models.DateField(blank=True,
                                       default=date.today,
@@ -26,7 +26,7 @@ class Product(models.Model):
                              related_name='users',
                              related_query_name='user',
                              )
-    Img = models.ImageField(upload_to='products/',blank=True)
+    Img = models.ImageField(upload_to='products/', blank=True)
 
     class Meta:
         ordering = ['title', '-type']
