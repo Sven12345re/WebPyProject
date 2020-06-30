@@ -10,6 +10,7 @@
         <b>{{ book.get_full_title }}</b></a><br>
 
            <img src="{{ book.Img.url}}" alt="tets" style="max-height:300px">
+           <a href="{% url 'product-detail' book.id %}"> go to this detail</a>
 
         <br>
     {% endfor %}
