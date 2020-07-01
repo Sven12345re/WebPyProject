@@ -34,3 +34,10 @@ class AllProfile(ListView):
     model = Profile
     context_object_name = 'all_profiles'
     template_name = 'profile_list.html'
+
+
+class Profile(ListView):
+    model = Profile
+    context_object_name = 'profile'
+    template_name = 'profile.html'
+

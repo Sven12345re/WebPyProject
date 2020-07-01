@@ -1,9 +1,12 @@
 {% extends 'home.html' %}
-
+{% load static %}
 {% block title %}Product detail{% endblock %}
 
 {% block content %}
 <h2>Product detail</h2>
+<a href="{% url 'logout' %}">logout</a>
+
+    <p> you entered correct </p>
 
     <table>
     <tr>
@@ -35,6 +38,36 @@
 
 
     </table>
+
+    <span style="color: darkgreen">{{ upvotes }}</span>
+    <a href="vote/up/" style="color: darkgreen">
+        <img src="{% static 'products/arrow_up.png' %}" height="20" width="20">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <span style="color: crimson">{{ downvotes }}</span>
+    <a href="vote/down/" style="color: crimson">
+        <img src="{% static 'products/arrow_down.png' %}" height="20" width="20">
+    </a>
+    <br><br>
+
+    <br><br>
+
+    {% for comment in comments_for_that_one_product %}
+        <b style="color: darkgreen">{{ comment.user.username }} on {{ comment.timestamp }}</b><br>
+        {{ comment.text }}<br><br>
+    {% endfor %}
+    <br>
+
+    <b style="color: crimson">Do you have a comment for this book?</b><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Add comment</button>
+    </form>
+
+    <br>
+
+
     <button type="button" class="btn btn-danger">kaufen</button>
 
     <br>
