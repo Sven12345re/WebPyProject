@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
+{% block title %}Products list{% endblock %}
+
+{% block content %}
+
+<ul>
+    {% for book in all_the_products %}
+        <b>{{ book.get_full_title }}</b></a><br>
+        <b>{{ book.user }}</b></a><br>
+
+           <img src="{{ book.Img.url}}" alt="tets" style="max-height:300px">
+        <br>
+           <a href="{% url 'product-detail' book.id %}"> go to this detail</a>
+
+        <br>
+    {% endfor %}
+</ul>
+
+<a href={% url 'product-create' %}>Add a new product</a><br>
+{% endblock %}

@@ -3,8 +3,44 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Base Titel{% endblock %}</title>
+    {% block css %}{% endblock %}
+    {% load static %}
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleCompleteWebsite.css' %}">
 </head>
 <body>
+    <div class="topnav" id="navigation">
+        <a class="navPoint" href="{% url 'home' %}">Home</a>
+        <a class="navPoint" href="{% url 'allProfile' %}">Zu den Profilen</a>
+        <a class="navPoint" href="{% url 'product-create' %}">Produkt erstellen</a>
+        <a class="navPoint" href="{% url 'product-list' %}">Produktübersicht</a>
+        {% if user.is_authenticated %}
+            <select class="navPoint" name="profile" onchange="window.location.href=this.value;">
+                <option><i class='fas fa-user'></i></option>
+                <option value="{% url 'profile' %}">Dein Profil</option>
+                <option value="{% url 'logout' %}"><a class="navPoint" href="{% url 'logout' %}">logout</a></option>
+            </select>
+        {% endif %}
+    </div>
     {% block content %}Base Block{% endblock %}
+
+    <script>
+        navTest = document.getElementsByClassName("navPoint")
+        var url = window.location.pathname
+        switch (url) {
+            case '/':
+                navTest[0].classList.add("active")
+                break;
+            case '/users/allProfile/':
+                navTest[1].classList.add("active")
+                break;
+            case '/product/add/':
+                navTest[2].classList.add("active")
+                break;
+            case '/product/show/':
+                navTest[3].classList.add("active")
+                break;
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>Add Product</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- {{ form.as_table }} -->
+        {{ form.as_p }}
+
+        <button type="submit">Add   new Product</button>
+    </form>
+    {% else %}
+        <p>You must log in to add Product</p>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+{% endblock %}
+
+
+
