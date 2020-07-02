@@ -1,10 +1,10 @@
-{% extends 'home.html' %}
-
-
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
 {% block title %}Products list{% endblock %}
 
 {% block content %}
-<h2>Products list</h2>
+
 <ul>
     {% for book in all_the_products %}
         <b>{{ book.get_full_title }}</b></a><br>
