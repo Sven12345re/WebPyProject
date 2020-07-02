@@ -6,13 +6,6 @@
     <h1>Homepage</h1>
     {% if user.is_authenticated %}
         <p>Hi {{ user.username }}!</p>
-        <img src="{{ user.profile.profile_picture.url }}" height="150" width="150"><br>
-        <a href="{% url 'profile' %}">To Your profile </a><br>
-        <a href="{% url 'allProfile' %}">Zu den Profilen</a><br>
-        <a href="{% url 'logout' %}">logout</a>
-        <br>
-      <a href="{% url 'product-create' %}"> create a product</a>
-        <a href="{% url 'product-list' %}">  products list</a>
 
     {% else %}
         <p>You are not logged in</p>

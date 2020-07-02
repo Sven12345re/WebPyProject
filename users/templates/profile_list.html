@@ -1,8 +1,14 @@
-<h1>Alle Profile</h1>
-<ul>
-    {% for profile in all_profiles %}
-        {{ profile.user }}<br>
-        <img src="{{ profile.profile_picture.url }}" height="150" width="150" alt="">
-        <br>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
+
+{% block content %}
+    <h1>Alle Profile</h1>
+    <ul>
+        {% for profile in all_profiles %}
+            {{ profile.user }}<br>
+            <img src="{{ profile.profile_picture.url }}" height="150" width="150" alt="">
+            <br>
+        {% endfor %}
+    </ul>
+{% endblock %}

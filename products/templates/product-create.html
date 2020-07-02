@@ -1,8 +1,11 @@
-
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
 {% block title %}Add Product{% endblock %}
 
-{% block logged_in_content %}
-<h2>Add Product</h2>
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>Add Product</h2>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -11,12 +14,11 @@
 
         <button type="submit">Add   new Product</button>
     </form>
-
-
+    {% else %}
+        <p>You must log in to add Product</p>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
 {% endblock %}
 
 
-{% block not_logged_in_content %}
-    <p>You must log in to add Product</p>
-    <a href="{% url 'login' %}">Login</a>
-{% endblock %}
+
