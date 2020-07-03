@@ -54,7 +54,17 @@ class ProductCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-
+    def model_form_upload(request):
+        if request.method == 'POST':
+            form = ProductForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect('home')
+        else:
+            form = ProductForm()
+        return render(request, 'product-list.html', {
+            'form': form
+        })
 
     def image_upload_view(request):
         if request.method == 'POST':

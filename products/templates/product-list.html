@@ -13,7 +13,12 @@
                 <p class="title"><b>{{ product.title }}</b></p><br>
                 <p>Genre: {{ product.get_type_display }}</p>
                 <p>Erstellt von:{{ product.user }}</p>
+
+
             </a>
+           {% if product.image %}
+               <a href="{{ product.document.url }}"> document</a>
+{% endif %}
         </div>
     {% endfor %}
 </ul>

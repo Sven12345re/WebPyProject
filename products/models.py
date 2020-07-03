@@ -28,6 +28,8 @@ class Product(models.Model):
                              )
     Img = models.ImageField(upload_to='products/', blank=True)
 
+    document = models.FileField(upload_to='documents/' ,blank=True)
+
     class Meta:
         ordering = ['title', '-type']
         verbose_name = 'Product'
