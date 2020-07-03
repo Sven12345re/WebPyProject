@@ -76,6 +76,7 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    rate = models.FloatField(max_length=500)
 
     class Meta:
         ordering = ['timestamp']
