@@ -60,9 +60,6 @@ class Product(models.Model):
                                    user=user,
                                    product=self
                                    )
-        
-
-
 
     def __str__(self):
         return self.title
@@ -76,7 +73,7 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rate = models.FloatField(max_length=500)
+    rate = models.FloatField(max_length=500, null=True)
 
     class Meta:
         ordering = ['timestamp']
