@@ -36,7 +36,7 @@ class AllProfile(ListView):
     template_name = 'profile_list.html'
 
 
-class Profile(ListView):
+class ProfileView(ListView):
     model = Profile
     context_object_name = 'profile'
     template_name = 'profile.html'
