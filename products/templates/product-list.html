@@ -1,22 +1,22 @@
 {% extends "base.html" %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'products/books_style.css' %}">
 {% block title %}Products list{% endblock %}
-
 {% block content %}
-
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
+<div class="product-page">
 <ul>
-    {% for book in all_the_products %}
-        <b>{{ book.get_full_title }}</b></a><br>
-        <b>{{ book.user }}</b></a><br>
-
-           <img src="{{ book.Img.url}}" alt="tets" style="max-height:300px">
-        <br>
-           <a href="{% url 'product-detail' book.id %}"> go to this detail</a>
-
-        <br>
+    {% for product in all_the_products %}
+        <div class="product-info">
+            <a href="{% url 'product-detail' product.id %}">
+                <img src="{{ product.Img.url}}" alt="tets" style="max-height:200px">
+                <br>
+                <p class="title"><b>{{ product.title }}</b></p><br>
+                <p>Genre: {{ product.get_type_display }}</p>
+                <p>Erstellt von:{{ product.user }}</p>
+            </a>
+        </div>
     {% endfor %}
 </ul>
+</div>
 
-<a href={% url 'product-create' %}>Add a new product</a><br>
 {% endblock %}
