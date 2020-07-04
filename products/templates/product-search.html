@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Products list{% endblock %}
+{% block content %}
+    <h2>Search product</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <br>
+
+    {% if show_results %}
+        <b>Books found:</b><br>
+        {{ products_found.datetimes }}
+        <ul>
+        {% for book in products_found %}
+            <a href="../show/{{ book.id }}/"><b>{{ book.get_full_title }}</b></a><br>
+            {{ book.author }} / {{ book.get_type_display }} / {{ book.pages }} pages<br>
+            <br>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

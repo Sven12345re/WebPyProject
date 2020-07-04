@@ -4,8 +4,13 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
 <div class="product-page">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
 <ul>
-    {% for product in all_the_products %}
+    {% for product in products_found %}
         <div class="product-info">
             <a href="{% url 'product-detail' product.id %}">
                 <img src="{{ product.Img.url}}" alt="tets" style="max-height:200px">
@@ -23,5 +28,5 @@
     {% endfor %}
 </ul>
 </div>
-
 {% endblock %}
+

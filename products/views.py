@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
-from .forms import ProductForm,CommentForm
+from .forms import ProductForm, CommentForm, SearchForm
 from .models import Product, Comment
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -18,8 +18,8 @@ class ProductDetailView(DetailView):
     context_object_name = 'that_one_product'  # Default: book
     template_name = 'product-detail.html'  # Default: book_detail.html
 
-def product_detail(request, **kwargs):
 
+def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
 
@@ -84,3 +84,49 @@ def vote(request, pk: str, up_or_down: str):
     user = request.user
     product.vote(user, up_or_down)
     return redirect('product-detail', pk=pk)
+
+
+def product_search(request):
+    if request.method == 'POST':
+        search_string_user = request.POST['title']
+        products_found = Product.objects.filter(title__contains=search_string_user)
+        search_string_title = request.POST['title']
+        if search_string_title:
+            products_found = products_found.filter
+
+        form_in_function_based_view = SearchForm()
+        context = {'form': form_in_function_based_view,
+                   'products_found': products_found,
+                   'show_results': True}
+        return render(request, 'product-search.html', context)
+
+    else:
+        form_in_function_based_view = SearchForm()
+        product = Product.objects.all()
+        context = {'form': form_in_function_based_view,
+                   'products_found': product,
+                   'show_results': True}
+        return render(request, 'product-search.html', context)
+
+
+def product_list(request):
+    product = Product.objects.all()
+    if request.method == 'POST':
+        print("products_found")
+        search_string_user = request.POST['title']
+        products_found = Product.objects.filter(title__contains=search_string_user)
+        search_string_title = request.POST['title']
+        if search_string_title:
+            products_found = products_found.filter
+
+        form_in_function_based_view = SearchForm()
+        context = {'form': form_in_function_based_view,
+                   'products_found': products_found,
+                   'show_results': True}
+        return render(request, 'product-list.html', context)
+    else:
+        form_in_function_based_view = SearchForm()
+        context = {'form': form_in_function_based_view,
+                   'products_found': product,
+                   'show_results': True}
+        return render(request, 'product-list.html', context)
