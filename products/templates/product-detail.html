@@ -1,47 +1,31 @@
+<head>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+</head>
 {% extends 'home.html' %}
 {% load static %}
+
 {% block title %}Product detail{% endblock %}
 
 {% block content %}
 <h2>Product detail</h2>
-<a href="{% url 'logout' %}">logout</a>
-
-    <p> you entered correct </p>
-
-    <table>
-    <tr>
-        <td><b>Title:</b></td>
-        <td>{{ that_one_product.title }}<br></td>
-    </tr>
-    <tr>
-        <td><b>Desc</b></td>
-        <td>{{ that_one_product.Desc }}<br></td>
-    </tr>
-
-    <tr>
-        <td><b>Type:</b></td>
-        <td>{{ that_one_product.get_type_display }}<br></td>
-    </tr>
-
-    <tr>
-        <td><b>Date published:</b></td>
-        <td>{{ that_one_product.date_published }}<br></td>
-    </tr>
-    <tr>
-        <td><b>Entered by:</b></td>
-        <td>{{ that_one_product.user }}<br></td>
-    </tr>
-     <tr>
-        <td><b>Product</b></td>
-        <td>   <img src="{{  that_one_product.Img.url }}" alt="tets" style="max-height:300px"><br></td>
-    </tr>
-        <tr>
-        <td><b>Product document</b></td>
-        <td>   <a href="{{ that_one_product.document.url }}"> document</a></td>
-    </tr>
 
 
-    </table>
+    <div class="card mb-3">
+  <img src="{{  that_one_product.Img.url }}" class="card-img-top" style="max-height: 450px">
+  <div class="card-body">
+    <h5 class="card-title"> {{ that_one_product.title }}</h5>
+    <p class="card-text"> {{ that_one_product.Desc }}</p>
+    <p class="card-text"><small class="text-muted"></small>
+    <small class="text-muted">type: {{ that_one_product.get_type_display }}</small>
+        <small class="text-muted"> data: {{ that_one_product.date_published }}</small>
+        <small class="text-muted"> By :{{ that_one_product.user }}</small><br>
+        <a href="{{ that_one_product.document.url }}"> document info</a>
+    </p>
+  </div>
+</div>
 
     <span style="color: darkgreen">{{ upvotes }}</span>
     <a href="vote/up/" style="color: darkgreen">
@@ -56,9 +40,20 @@
 
     <br><br>
 
+
+
     {% for comment in comments_for_that_one_product %}
-        <b style="color: darkgreen">{{ comment.user.username }} on {{ comment.timestamp }}</b><br>
-        {{ comment.text }}<br><br>
+
+
+
+        <h2 >{{ comment.user.username }} on {{ comment.timestamp }}</h2><br>
+        <p> {{ comment.text }}</p>
+
+
+
+
+
+       <br><br>
      {% if comment.rate < 1.0 %}
 
     {% endif %}
@@ -92,6 +87,10 @@
 
         {{ comment.rate }} <br><br>
     {% endfor %}
+
+
+
+
     <br>
 
     <b style="color: crimson">Do you have a comment for this book?</b><br>
@@ -102,13 +101,13 @@
 
         <b style="color: crimson">please give a number between 1 and 5</b><br>
          <br>
-        <button type="submit">Add comment</button>
+        <button type="submit" class="btn btn-outline-secondary">Add comment</button>
     </form>
 
     <br>
 
 
-    <button type="button" class="btn btn-danger">kaufen</button>
+
 
     <br>
     <a href="{% url 'product-list' %}">Back to all products</a>
