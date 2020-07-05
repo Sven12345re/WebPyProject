@@ -112,18 +112,45 @@ def product_search(request):
 def product_list(request):
     product = Product.objects.all()
     if request.method == 'POST':
-        print("products_found")
-        search_string_user = request.POST['title']
-        products_found = Product.objects.filter(title__contains=search_string_user)
-        search_string_title = request.POST['title']
-        if search_string_title:
-            products_found = products_found.filter
+        if 'type' in request.POST:
+            search_string_user = request.POST['type']
+            products_found = Product.objects.filter(type__contains=search_string_user)
+            search_string_title = request.POST['type']
+            if search_string_title:
+                products_found = products_found.filter
 
-        form_in_function_based_view = SearchForm()
-        context = {'form': form_in_function_based_view,
-                   'products_found': products_found,
-                   'show_results': True}
-        return render(request, 'product-list.html', context)
+            form_in_function_based_view = SearchForm()
+            context = {'form': form_in_function_based_view,
+                       'products_found': products_found,
+                       'show_results': True}
+            return render(request, 'product-list.html', context)
+        if 'title' in request.POST:
+            search_string_user = request.POST['title']
+            products_found = Product.objects.filter(title__contains=search_string_user)
+            search_string_title = request.POST['title']
+            if search_string_title:
+                products_found = products_found.filter
+
+            form_in_function_based_view = SearchForm()
+            context = {'form': form_in_function_based_view,
+                       'products_found': products_found,
+                       'show_results': True}
+            return render(request, 'product-list.html', context)
+        if 'user' in request.POST:
+            search_string_user = request.POST['user']
+            print(search_string_user)
+            products_found = Product.objects.filter(user_id__exact=search_string_user)
+            search_string_title = request.POST['user']
+            if search_string_title:
+                products_found = products_found.filter
+
+            form_in_function_based_view = SearchForm()
+            context = {'form': form_in_function_based_view,
+                       'products_found': products_found,
+                       'show_results': True}
+            return render(request, 'product-list.html', context)
+
+
     else:
         form_in_function_based_view = SearchForm()
         context = {'form': form_in_function_based_view,

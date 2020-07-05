@@ -1,32 +1,65 @@
 {% extends "base.html" %}
 {% block title %}Products list{% endblock %}
 {% block content %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
-<div class="product-page">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Search</button>
-    </form>
-<ul>
-    {% for product in products_found %}
-        <div class="product-info">
-            <a href="{% url 'product-detail' product.id %}">
-                <img src="{{ product.Img.url}}" alt="tets" style="max-height:200px">
-                <br>
-                <p class="title"><b>{{ product.title }}</b></p><br>
-                <p>Genre: {{ product.get_type_display }}</p>
-                <p>Erstellt von:{{ product.user }}</p>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
+    <div class="filterAndProducts">
+        <div>
 
+            <div class="titelsuche filter">
+                <b>Suche nach Titel:</b>
+                <form method="POST">
+                {% csrf_token %}
+                <div class="search">
+                    {{ form.title }}
+                    <button class="submit-search" type="submit">Search</button>
+                </div>
+            </form>
+            </div>
+            <hr>
+            <div class="filterGenre filter">
+                <b>Filtern nach Genre: </b>
+                <form method="POST">
+                {% csrf_token %}
+                <div class="search">
+                    {{ form.type }}
+                    <button class="submit-search" type="submit">Filter</button>
+                </div>
+            </form>
+            </div>
+            <hr>
+            <div class="filterUser filter">
+                <b>Filtern nach User: </b>
+                <form method="POST">
+                {% csrf_token %}
+                <div class="search">
+                    {{ form.user }}
+                    <button class="submit-search" type="submit">Filter</button>
+                </div>
+            </form>
+            </div>
 
-            </a>
-           {% if product.image %}
-               <a href="{{ product.document.url }}"> document</a>
-{% endif %}
         </div>
-    {% endfor %}
-</ul>
-</div>
+        <div class="product-page">
+            <ul>
+                {% for product in products_found %}
+                    <div class="product-info">
+                        <a href="{% url 'product-detail' product.id %}">
+                            <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
+                            <br>
+                            <p class="title"><b>{{ product.title }}</b></p><br>
+                            <p>Genre: {{ product.get_type_display }}</p>
+                            <p>Erstellt von:{{ product.user }}</p>
+
+
+                        </a>
+                        {% if product.image %}
+                            <a href="{{ product.document.url }}"> document</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 

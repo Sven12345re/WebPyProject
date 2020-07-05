@@ -23,7 +23,9 @@
             </select>
         {% endif %}
     </div>
-    {% block content %}Base Block{% endblock %}
+    <div class="main">
+        {% block content %}Base Block{% endblock %}
+    </div>
 
     <script>
         navTest = document.getElementsByClassName("navPoint")
