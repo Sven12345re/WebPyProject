@@ -27,3 +27,5 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['title', 'Desc', 'Img', 'type', 'date_published', 'document', 'user']
+
+

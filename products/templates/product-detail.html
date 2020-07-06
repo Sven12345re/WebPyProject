@@ -48,7 +48,15 @@
 
         <h2 >{{ comment.user.username }} on {{ comment.timestamp }}</h2><br>
         <p> {{ comment.text }}</p>
-
+        <span style="color: darkgreen">{{ like }}</span>
+    <a href="like/LIKe/" style="color: darkgreen">
+        <img src="{% static 'products/arrow_up.png' %}" height="20" width="20">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <span style="color: crimson">{{ dislike }}</span>
+    <a href="like/Dislike/" style="color: crimson">
+        <img src="{% static 'products/arrow_down.png' %}" height="20" width="20">
+    </a>
 
 
 

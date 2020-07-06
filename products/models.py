@@ -94,6 +94,27 @@ class Comment(models.Model):
     def __repr__(self):
         return self.get_comment_prefix() + ' (' + self.user.username + ' / ' + str(self.timestamp) + ')'
 
+    def get_upvotes(self):
+        like = Like.objects.filter(Like_or_not='LIKe',
+                                      commnet=self)
+        return like
+
+    def get_upvotes_count(self):
+        return len(self.get_upvotes())
+
+    def get_downvotes(self):
+        dislike = Like.objects.filter(Like_or_not='Dislike',
+                                        commnet=self)
+        return dislike
+
+    def get_downvotes_count(self):
+        return len(self.get_downvotes())
+
+    def like(self, user, Like_or_not):
+        vote = Like.objects.create(Like_or_not=Like_or_not,
+                                   user=user,
+                                   commnet=self
+                                   )
 
 class Vote(models.Model):
     VOTE_TYPES = [
@@ -110,3 +131,21 @@ class Vote(models.Model):
 
     def __str__(self):
         return self.up_or_down + ' on ' + self.product.title + ' by ' + self.user.username
+
+
+class Like(models.Model):
+    Like_TYPES = [
+        ('L', 'LIKe'),
+        ('D', 'Dislike'),
+    ]
+
+    Like_or_not = models.CharField(max_length=1,
+                                  choices=Like_TYPES,
+                                  )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.up_or_down + ' on ' + self.commnet.text+ ' by ' + self.user.use
