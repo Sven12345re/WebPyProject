@@ -71,7 +71,7 @@ class Product(models.Model):
 
 
 class Comment(models.Model):
-    text = models.TextField(max_length=500)
+    text = models.CharField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
