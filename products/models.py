@@ -77,6 +77,7 @@ class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rate = models.FloatField(max_length=500, null=True)
 
+
     class Meta:
         ordering = ['timestamp']
         verbose_name = 'Comment'
