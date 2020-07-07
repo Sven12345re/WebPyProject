@@ -1,8 +1,22 @@
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+
 {% extends "base.html" %}
+
+
+
+
 
 {% block title %}Homepage Titel{% endblock %}
 
 {% block content %}
+    {% load static %}
+
+ <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Header.css' %}">
     <h1>Homepage</h1>
     {% if user.is_authenticated %}
         <p>Hi {{ user.username }}!</p>
@@ -13,4 +27,168 @@
         <br>
         <a href="{% url 'signup' %}">Registration</a>
     {% endif %}
+
+     <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-caption">
+                        <h1 class="page-title">  Title </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.page-header-->
+    <!-- news -->
+    <div class="card-section">
+        <div class="container">
+            <div class="card-block bg-white mb30">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <!-- section-title -->
+                        <div class="section-title mb-0">
+                            <h2>All about ___. We share Your Products </h2>
+                            <p>Our approach is very simple: we display your product and give the best price. </p>
+                        </div>
+                        <!-- /.section-title -->
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            </div>
+            </div>
+
+
+
+
+
+<div class="container">
+
+
+<div class="py-5 team4">
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-7 text-center">
+        <h3 class="mb-3">Experienced & Professional Team</h3>
+        <h6 class="subtitle">You can relay on our amazing features list and also our customer services will be great experience for you without doubt and in no-time</h6>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- column  -->
+      <div class="col-6">
+        <!-- Row -->
+        <div class="row">
+          <div class="col-6">
+            <img src="{% static 'images/sven.jpg' %}" alt="wrapkit" class="img-fluid rounded-circle" />
+          </div>
+          <div class="col-6">
+            <div class="pt-2">
+              <h5 class="mt-4 font-weight-medium mb-0">Sven Redlich</h5>
+              <h6 class="subtitle mb-3">Computer science student</h6>
+              <p> Beuth Hochschule</p>
+              <p>s75830@beuth-hochschule.de</p>
+
+            </div>
+          </div>
+        </div>
+        <!-- Row -->
+      </div>
+      <!-- column  -->
+      <!-- column  -->
+      <div class="col-6">
+        <!-- Row -->
+        <div class="row">
+          <div class="col-6">
+            <img src="{% static 'images/rami.jpg' %}" alt="wrapkit" class="img-fluid rounded-circle" />
+          </div>
+          <div class="col-6">
+            <div class="pt-2">
+              <h5 class="mt-4 font-weight-medium mb-0">Mohamad Rami Eita </h5>
+              <h6 class="subtitle mb-3">Computer science student</h6>
+                <p> Beuth Hochschule</p>
+              <p>s76042@beuth-hochschule.de</p>
+
+            </div>
+          </div>
+        </div>
+        <!-- Row -->
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+<hr>
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                    <div class="first">
+                        <h4> About</h4>
+                        <section>
+                        <p>virtuelle Lerngruppe in Form eines Forums zielgerichtet an Studenten</p>
+                        <p>zum Austausch von verschiedenen Themen und Modulinhalten</p>
+                        <p>zum gemeinsamen Lernen und gegenseitigem Helfen</p>
+                        <p>Studierende können such zusammen für die Klausur vorbereiten, indem sie zu einem Thema bestimmte Fragen stellen, Antworten erhalten und Kommentare verfassen</p>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12">
+                    <div class="second">
+                        <h4> Members</h4>
+                        <ul>
+
+                            <li>Mohamad Rami Eita</li>
+                            <li>Sven Redlich</li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12">
+                    <div class="third">
+                        <h4> Contact</h4>
+                        <ul>
+                          <li> s75951@beuth-hochschule.de</li>
+                            <li>s75830@beuth-hochschule.de</li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="line"></div>
+                    <div class="second2">
+                        <a href="" target="_blank"> <i class="fab fa-codepen fa-2x margin"></i></a>
+                        <a href="" target="_blank"> <i class="fab fa-github fa-2x margin"></i></a>
+                        <a href="" target="_blank"> <i class="fab fa-linkedin fa-2x margin"></i></a>
+                        <a href="" target="_blank"><i class="fab fa-youtube fa-2x margin" ></i></a>
+                        <br>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            </div>
+    </div>
+
+
+
+
 {% endblock %}
+
+
