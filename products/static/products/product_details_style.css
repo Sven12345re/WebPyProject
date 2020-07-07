@@ -1,0 +1,18 @@
+/* The bar container */
+.bar-container {
+  width: 200px;
+  height: 5px;
+  background-color: #888888;
+  text-align: center;
+
+}
+
+/* Individual bars */
+.bar-5 {
+  height: 5px;
+  background-color: coral;
+}
+
+.profile_picture{
+  border-radius: 100%;
+}

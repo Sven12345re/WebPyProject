@@ -33,11 +33,16 @@ def product_detail(request, **kwargs):
         else:
             print(form.errors)
 
+    if(product.get_upvotes_count() > 0):
+        vote = (product.get_upvotes_count() * 100 / (product.get_upvotes_count() + product.get_downvotes_count()))
+    else:
+        vote = 0
     comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
                'comments_for_that_one_product': comments,
                'upvotes': product.get_upvotes_count(),
                'downvotes': product.get_downvotes_count(),
+               'vote': vote,
                'comment_form': CommentForm}
     return render(request, 'product-detail.html', context)
 
