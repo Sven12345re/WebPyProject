@@ -1,16 +1,140 @@
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title> Your profile</title>
-    <p>Hi {{ user.username }}!</p>
-    <img src="{{ user.profile.profile_picture.url }}" height="150" width="150"><br>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+{% load static %}
 
-
-
-
-
+<link rel="stylesheet" type="text/css" href="{% static "users/profile.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/styleCompleteWebsite.css' %}">
 </head>
-<body>
+{% block title %}Your Profile{% endblock %}
+{% block content %}
+    <div class="topnav" id="navigation">
+        <a class="navPoint" href="{% url 'home' %}">Home</a>
+        <a class="navPoint" href="{% url 'allProfile' %}">Zu den Profilen</a>
+        <a class="navPoint" href="{% url 'product-create' %}">Produkt erstellen</a>
+        <a class="navPoint" href="{% url 'product-list' %}">Produktübersicht</a>
+        <a class="navPoint" href="{% url 'product-search' %}">Produkt Suche</a>
+        {% if user.is_authenticated %}
+            <select class="navPoint" name="profile" onchange="window.location.href=this.value;">
+                <option><i class='fas fa-user'></i></option>
+                <option value="{% url 'profile' %}">Dein Profil</option>
+                <option value="{% url 'logout' %}"><a class="navPoint" href="{% url 'logout' %}">logout</a></option>
+            </select>
+        {% endif %}
+    </div>
 
-</body>
+    <br>
+    <br>
+    <br>
+    <h2>Your Profile</h2>
+    <div class="container ctn">
+    <br>
+     <span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+     <div class="container">
+         <div class="card">
+  <img src="{{ user.profile.profile_picture.url }} "alt="John" style="width:100%">
+  <h1>{{ user.first_name }} {{ user.last_name }} </h1>
+  <p class="title">USERNAME:  {{ user.username }}</p>
+  <p>{{user.email }}</p>
+  <div style="margin: 24px 0;">
+
+  </div>
+  <p><button>Profile</button></p>
+
+</div>
+
+     </div>
+
+
+</div>
+
+    <!-- prodz t form suer -->
+
+<br>
+    <ul>
+                {% for product in products_found %}
+                    <div class="product-info">
+                        <a href="{% url 'product-detail' product.id %}">
+                            <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
+                            <br>
+                            <p class="title"><b>{{ product.title }}</b></p><br>
+                            <p>Genre: {{ product.get_type_display }}</p>
+                            <p>Erstellt von:{{ product.user }}</p>
+
+
+                        </a>
+                        {% if product.image %}
+                            <a href="{{ product.document.url }}"> document</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </ul>
+
+<div class="aboutus-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="aboutus">
+                        <h2 class="aboutus-title">About Us</h2>
+                        <p class="aboutus-text">virtuelle Lerngruppe in Form eines Forums zielgerichtet an Studenten
+                            zum Austausch von verschiedenen Themen und Modulinhalten.</p>
+                        <p class="aboutus-text">Studierende können such zusammen für die Klausur vorbereiten, indem sie zu einem Thema bestimmte Fragen stellen, Antworten erhalten und Kommentare verfasse</p>
+                        <a class="aboutus-more" href="#">read more</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="aboutus-banner">
+                        <img src="{% static 'images/movers.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-6 col-xs-12">
+                    <div class="feature">
+                        <div class="feature-box">
+                            <div class="clearfix">
+                                <div class="iconset">
+                                    <span class="glyphicon glyphicon-cog icon"></span>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Work with heart</h4>
+                                    <p>Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="clearfix">
+                                <div class="iconset">
+                                    <span class="glyphicon glyphicon-cog icon"></span>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Reliable services</h4>
+                                    <p>Donec vitae sapien ut libero venenatis faucibu. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="clearfix">
+                                <div class="iconset">
+                                    <span class="glyphicon glyphicon-cog icon"></span>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Great support</h4>
+                                    <p>Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 </html>
