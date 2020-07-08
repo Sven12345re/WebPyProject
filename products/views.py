@@ -22,6 +22,8 @@ class ProductDetailView(DetailView):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
+    comment_id = kwargs['pk']
+    comment = Comment.objects.get(id=comment_id)
 
     # Add comment
     if request.method == 'POST':
@@ -42,7 +44,10 @@ def product_detail(request, **kwargs):
                'comments_for_that_one_product': comments,
                'upvotes': product.get_upvotes_count(),
                'downvotes': product.get_downvotes_count(),
+               'like': comment.get_upvotes_count(),
+               'dislike': comment.get_downvotes_count(),
                'vote': vote,
+
                'comment_form': CommentForm}
     return render(request, 'product-detail.html', context)
 
@@ -162,3 +167,8 @@ def product_list(request):
                    'products_found': product,
                    'show_results': True}
         return render(request, 'product-list.html', context)
+def like(request, pk: str, Like_or_not: str):
+    comment = Comment.objects.get(id=int(pk))
+    user = request.user
+    comment.like(user, Like_or_not)
+    return redirect('product-detail', pk=pk)
