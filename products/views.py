@@ -168,6 +168,7 @@ def product_list(request):
                    'products_found': product,
                    'show_results': True}
         return render(request, 'product-list.html', context)
+
 def like(request, pk: str, Like_or_not: str):
     comment = Comment.objects.get(id=int(pk))
     user = request.user

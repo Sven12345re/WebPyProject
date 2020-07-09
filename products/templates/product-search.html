@@ -1,23 +1,55 @@
-{% extends 'base.html' %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}Products list{% endblock %}
 {% block content %}
+    <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
     <h2>Search product</h2>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Search</button>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-outline-dark btn-lg btn-block" style="background-color: #df7b49">Search</button>
     </form>
+          </div>
+      </div>
+    </div>
+    </div>
+      </div>
     <br>
     <br>
 
     {% if show_results %}
-        <b>Books found:</b><br>
+        <b>Products found:</b><br>
+        <br>
         {{ products_found.datetimes }}
         <ul>
         {% for book in products_found %}
-            <a href="../show/{{ book.id }}/"><b>{{ book.get_full_title }}</b></a><br>
-            {{ book.author }} / {{ book.get_type_display }} / {{ book.pages }} pages<br>
+            <div class="card-columns">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ book.Img.url }}" class="card-img-top" alt="...">
+                 <div class="card-body">
+                <h5 class="card-title">{{ book.get_full_title }}</h5>
+                <p class="card-text"> {{ book.get_type_display }}</p>
+                     <small>  posted by :{{ book.user }}</small>
+                     <br>
+                <a href="../show/{{ book.id }}/" class="btn " style="background-color: #df7b49">check the Product</a>
+                </div>
+            </div>
+
+          <!-- <a href="../show/{{ book.id }}/"><b>{{ book.get_full_title }}</b></a><br>
+            {{ book.author }} / {{ book.get_type_display }} <br>
+            / {{ book.pages }} pages
             <br>
+            -->
+            <br>
+            </div>
         {% endfor %}
         </ul>
     {% endif %}
