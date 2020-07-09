@@ -22,10 +22,13 @@
         <p>Hi {{ user.username }}!</p>
 
     {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'login' %}">login</a>
-        <br>
-        <a href="{% url 'signup' %}">Registration</a>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+   <a href="{% url 'login' %}" class="alert-link">You are not logged in</a>. log in to create your product.
+    <a href="{% url 'signup' %}" class="alert-link">or create an account</a>
+</div>
+
+
+
     {% endif %}
 
      <div class="page-header">
