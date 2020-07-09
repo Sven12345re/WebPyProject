@@ -116,6 +116,19 @@ class Comment(models.Model):
                                    user=user,
                                    commnet=self
                                    )
+    def get_report(self):
+        report = Report.objects.filter(report='report',
+                                        commnet=self)
+        return report
+
+    def get_report_count(self):
+        return len(self.get_report())
+
+    def report(self,user, report):
+        report = Report.objects.create(report=report,
+                                       user=user,
+                                       comment=self)
+
 
 class Vote(models.Model):
     VOTE_TYPES = [
@@ -150,3 +163,20 @@ class Like(models.Model):
 
     def __str__(self):
         return self.up_or_down + ' on ' + self.commnet.text+ ' by ' + self.user.use
+
+
+class Report(models.Model):
+    REPORT_TYPES = [
+        ('R', 'REPORT'),
+
+    ]
+
+    report = models.CharField(max_length=1,
+                                  choices=REPORT_TYPES,
+                                  )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.report + ' on ' + self.commnet.text

@@ -46,6 +46,7 @@ def product_detail(request, **kwargs):
                'downvotes': product.get_downvotes_count(),
                'like': comment.get_upvotes_count(),
                'dislike': comment.get_downvotes_count(),
+               'report': comment.get_report_count(),
                'vote': vote,
 
                'comment_form': CommentForm}
@@ -171,4 +172,11 @@ def like(request, pk: str, Like_or_not: str):
     comment = Comment.objects.get(id=int(pk))
     user = request.user
     comment.like(user, Like_or_not)
+    return redirect('product-detail', pk=pk)
+
+
+def report(request, pk: str, Report: str):
+    comment = Comment.objects.get(id=int(pk))
+    user = request.user
+    comment.report(user, Report)
     return redirect('product-detail', pk=pk)

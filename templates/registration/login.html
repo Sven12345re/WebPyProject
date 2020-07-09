@@ -1,10 +1,41 @@
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
 {% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+
+
+
 {% block title %}Login{% endblock %}
+
 {% block content %}
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+    <div class="sidenav">
+         <div class="login-main-text">
+            <h2> Login Page</h2>
+            <p>Login  from here to access.</p>
+         </div>
+     <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <h2>Log in</h2>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-warning ">Log in</button>
+              <br>
+              <small> do not you have an account then register here  <a href="{% url 'signup' %}">Sign up</a></small>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+
 {% endblock %}
