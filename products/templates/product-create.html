@@ -1,19 +1,36 @@
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'products/product_style.css' %}">
 {% block title %}Add Product{% endblock %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
     {% if user.is_authenticated %}
+      <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
     <h2>Add Product</h2>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- {{ form.as_table }} -->
-        {{ form.as_p }}
+        {{ form|crispy  }}
 
-        <button type="submit">Add   new Product</button>
+        <button type="submit" class="btn btn-outline-dark btn-lg btn-block" style="background-color: #df7b49">Add   new Product</button>
     </form>
+         </div>
+      </div>
+    </div>
+    </div>
+      </div>
     {% else %}
         <p>You must log in to add Product</p>
         <a href="{% url 'login' %}">Login</a>
