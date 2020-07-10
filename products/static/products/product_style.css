@@ -14,6 +14,8 @@ ul{
 
 }
 
+
+
 .product-info:hover{
     border-style: solid;
     border-width: thin;
@@ -55,4 +57,10 @@ img{
 .filter{
     margin-top: 2em;
     margin-bottom: 2em;
+}
+
+
+.hrefToSearch{
+    margin-top: 2em;
+    color: #df7b49;
 }

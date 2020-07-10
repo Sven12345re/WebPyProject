@@ -10,46 +10,45 @@
 
 </head>
 <body style="background-color: #e0e0e0">
-    <div class="topnav" id="navigation">
-        <a class="navPoint" href="{% url 'home' %}">Home</a>
-        <a class="navPoint" href="{% url 'allProfile' %}">Zu den Profilen</a>
-        <a class="navPoint" href="{% url 'product-create' %}">Produkt erstellen</a>
-        <a class="navPoint" href="{% url 'product-list' %}">Produktübersicht</a>
-        <a class="navPoint" href="{% url 'product-search' %}">Produkt Suche</a>
-            <a class="navPoint" href="{% url 'profile' %}">profile</a>
-        {% if user.is_authenticated %}
-            <select class="navPoint" name="profile" onchange="window.location.href=this.value;">
-                <option><i class='fas fa-user'></i></option>
-                <option value="{% url 'profile' %}">Dein Profil</option>
-                <option value="{% url 'logout' %}"><a class="navPoint" href="{% url 'logout' %}">logout</a></option>
-            </select>
-        {% endif %}
-    </div>
-    <div class="main">
-        {% block content %}Base Block{% endblock %}
-    </div>
+<div class="topnav" id="navigation">
+    <a class="navPoint" href="{% url 'home' %}">Home</a>
+    <a class="navPoint" href="{% url 'allProfile' %}">Zu den Profilen</a>
+    <a class="navPoint" href="{% url 'product-create' %}">Produkt erstellen</a>
+    <a class="navPoint" href="{% url 'product-list' %}">Produktübersicht</a>
+    <a class="navPoint" href="{% url 'profile' %}">profile</a>
+    {% if user.is_authenticated %}
+        <select class="navPoint" name="profile" onchange="window.location.href=this.value;">
+            <option><i class='fas fa-user'></i></option>
+            <option value="{% url 'profile' %}">Dein Profil</option>
+            <option value="{% url 'logout' %}"><a class="navPoint" href="{% url 'logout' %}">logout</a></option>
+        </select>
+    {% endif %}
+</div>
+<div class="main">
+    {% block content %}Base Block{% endblock %}
+</div>
 
-    <script>
-        navTest = document.getElementsByClassName("navPoint")
-        var url = window.location.pathname
-        switch (url) {
-            case '/':
-                navTest[0].classList.add("active")
-                break;
-            case '/users/allProfile/':
-                navTest[1].classList.add("active")
-                break;
-            case '/product/add/':
-                navTest[2].classList.add("active")
-                break;
-            case '/product/show/':
-                navTest[3].classList.add("active")
-                break;
-            case '/product/search/':
-                navTest[4].classList.add("active")
-                break;
-        }
-    </script>
+<script>
+    navTest = document.getElementsByClassName("navPoint")
+    var url = window.location.pathname
+    switch (url) {
+        case '/':
+            navTest[0].classList.add("active")
+            break;
+        case '/users/allProfile/':
+            navTest[1].classList.add("active")
+            break;
+        case '/product/add/':
+            navTest[2].classList.add("active")
+            break;
+        case '/product/show/':
+            navTest[3].classList.add("active")
+            break;
+        case '/product/search/':
+            navTest[4].classList.add("active")
+            break;
+    }
+</script>
 
 </body>
 </html>
