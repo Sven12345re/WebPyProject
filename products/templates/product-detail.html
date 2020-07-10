@@ -3,7 +3,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -16,6 +16,8 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "products/product_details_style.css" %}">
+     <link rel="stylesheet" type="text/css" href="{% static "products/review.css" %}">
+
     <script type="text/javascript" src="{% static "products/vote.js" %}"></script>
     <div class="d-flex flex-row">
         <div class="card mb-3 d-flex flex-row card-img-top m-5 p-5" style="width: min-content">
@@ -85,6 +87,7 @@
 
 
 
+
             <b style="color: crimson">please give a number between 1 and 5</b><br>
             <br>
             <button type="submit" class="btn btn-outline-secondary">Add comment</button>
@@ -100,6 +103,8 @@
                      height="40px">
                 <small>{{ comment.user.username }}</small>
                 <br>
+
+
                 {% if comment.rate < 1.0 %}
 
                 {% endif %}
@@ -139,6 +144,13 @@
 
         {% endfor %}
     </div>
+
+    <!-- review form -->
+
+
+
+
+
 {% endblock %}
 
 

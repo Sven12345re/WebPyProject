@@ -9,5 +9,6 @@ urlpatterns = [
     path('add/', views.ProductCreateView.as_view(), name='product-create'),
     path('search/', views.product_search, name='product-search'),
 
+
 ]
 
