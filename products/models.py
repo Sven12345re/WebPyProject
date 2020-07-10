@@ -28,7 +28,7 @@ class Product(models.Model):
                              )
     Img = models.ImageField(upload_to='products/', blank=True)
 
-    document = models.FileField(upload_to='documents/' ,blank=True)
+    document = models.FileField(upload_to='documents/', blank=True)
 
     class Meta:
         ordering = ['title', '-type']
@@ -77,7 +77,6 @@ class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rate = models.FloatField(max_length=500, null=True)
 
-
     class Meta:
         ordering = ['timestamp']
         verbose_name = 'Comment'
@@ -97,7 +96,7 @@ class Comment(models.Model):
 
     def get_upvotes(self):
         like = Like.objects.filter(Like_or_not='LIKe',
-                                      commnet=self)
+                                   comment=self)
         return like
 
     def get_upvotes_count(self):
@@ -105,7 +104,7 @@ class Comment(models.Model):
 
     def get_downvotes(self):
         dislike = Like.objects.filter(Like_or_not='Dislike',
-                                        commnet=self)
+                                      comment=self)
         return dislike
 
     def get_downvotes_count(self):
@@ -114,17 +113,18 @@ class Comment(models.Model):
     def like(self, user, Like_or_not):
         vote = Like.objects.create(Like_or_not=Like_or_not,
                                    user=user,
-                                   commnet=self
+                                   comment=self
                                    )
+
     def get_report(self):
         report = Report.objects.filter(report='report',
-                                        commnet=self)
+                                       comment=self)
         return report
 
     def get_report_count(self):
         return len(self.get_report())
 
-    def report(self,user, report):
+    def report(self, user, report):
         report = Report.objects.create(report=report,
                                        user=user,
                                        comment=self)
@@ -154,15 +154,14 @@ class Like(models.Model):
     ]
 
     Like_or_not = models.CharField(max_length=1,
-                                  choices=Like_TYPES,
-                                  )
+                                   choices=Like_TYPES,
+                                   )
     timestamp = models.DateTimeField(auto_now_add=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
-
     def __str__(self):
-        return self.up_or_down + ' on ' + self.commnet.text+ ' by ' + self.user.use
+        return self.up_or_down + ' on ' + self.comment.text + ' by ' + self.user.use
 
 
 class Report(models.Model):
@@ -172,11 +171,11 @@ class Report(models.Model):
     ]
 
     report = models.CharField(max_length=1,
-                                  choices=REPORT_TYPES,
-                                  )
+                              choices=REPORT_TYPES,
+                              )
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.report + ' on ' + self.commnet.text
+        return self.report + ' on ' + self.comment.text

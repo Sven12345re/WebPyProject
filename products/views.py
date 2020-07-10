@@ -23,7 +23,6 @@ def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
     comment_id = kwargs['pk']
-    comment = Comment.objects.get(id=comment_id)
 
     # Add comment
     if request.method == 'POST':
@@ -35,18 +34,15 @@ def product_detail(request, **kwargs):
         else:
             print(form.errors)
 
-    if(product.get_upvotes_count() > 0):
-        vote = (product.get_upvotes_count() * 100 / (product.get_upvotes_count() + product.get_downvotes_count()))
-    else:
-        vote = 0
+    vote = 0
     comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
                'comments_for_that_one_product': comments,
                'upvotes': product.get_upvotes_count(),
                'downvotes': product.get_downvotes_count(),
-               'like': comment.get_upvotes_count(),
-               'dislike': comment.get_downvotes_count(),
-               'report': comment.get_report_count(),
+               # 'like': comment.get_upvotes_count(),
+               # 'dislike': comment.get_downvotes_count(),
+
                'vote': vote,
 
                'comment_form': CommentForm}
@@ -169,8 +165,9 @@ def product_list(request):
                    'show_results': True}
         return render(request, 'product-list.html', context)
 
-def like(request, pk: str, Like_or_not: str):
-    comment = Comment.objects.get(id=int(pk))
+
+def like(request, pk: int, comment_pk: int, Like_or_not: str):
+    comment = Comment.objects.get(id=comment_pk)
     user = request.user
     comment.like(user, Like_or_not)
     return redirect('product-detail', pk=pk)
