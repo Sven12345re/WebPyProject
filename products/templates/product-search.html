@@ -6,6 +6,8 @@
 {% load crispy_forms_tags %}
 {% block title %}Products list{% endblock %}
 {% block content %}
+     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
     <div class="container">
     <div class="row justify-content-center">
     <div class="col-8">
@@ -29,9 +31,13 @@
         <b>Products found:</b><br>
         <br>
         {{ products_found.datetimes }}
+
         <ul>
         {% for book in products_found %}
-            <div class="card-columns">
+
+<div class=" fle">
+
+
             <div class="card" style="width: 18rem;">
                 <img src="{{ book.Img.url }}" class="card-img-top" alt="...">
                  <div class="card-body">
@@ -43,14 +49,19 @@
                 </div>
             </div>
 
+
+
           <!-- <a href="../show/{{ book.id }}/"><b>{{ book.get_full_title }}</b></a><br>
             {{ book.author }} / {{ book.get_type_display }} <br>
             / {{ book.pages }} pages
             <br>
             -->
             <br>
-            </div>
+
+ </div>
         {% endfor %}
+
         </ul>
+
     {% endif %}
 {% endblock %}

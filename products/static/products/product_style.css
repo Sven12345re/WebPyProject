@@ -60,7 +60,15 @@ img{
 }
 
 
+<<<<<<< HEAD
+.fle {
+    display: flex;
+    margin: 0 auto;
+
+
+=======
 .hrefToSearch{
     margin-top: 2em;
     color: #df7b49;
+>>>>>>> 957cff8439f1ab82a61554ea2f015ca08240744f
 }
