@@ -179,6 +179,10 @@
                             {% endif %}
                         </li>
                     </ul>
+                    {% if comment.user == request.user %}
+                        <a style="color: #ff6d0a; " href="{% url "delete" pk=comment.id %}">Delete Your comment</a>
+                        <a style="color: #ff6d0a;" href="{% url "update" pk=comment.id %}">Edit your Comment</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

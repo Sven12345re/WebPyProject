@@ -6,6 +6,7 @@ from .models import Product, Comment
 from decimal import Decimal, ROUND_HALF_UP
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 
 class ProductListView(ListView):
@@ -189,3 +190,58 @@ def report(request, pk: int, comment_pk: int, report: str):
     user = request.user
     comment.report(user, report)
     return redirect('product-detail', pk=pk)
+
+
+def manager_portal(request, **kwargs):
+    comments = Comment.objects.all()
+    context = {'comments': comments}
+    return render(request, 'manager-portal.html', context)
+
+
+def comment_delete(request, pk):
+    template = 'delete.html'
+    comment = get_object_or_404(Comment, pk=pk)
+    if comment.user == request.user:
+
+        if request.method == 'POST':
+            comment.delete()
+            return redirect('/')
+        context = {"comment": comment}
+        return render(request, template, context)
+
+
+def comment_update(request, pk):
+    template = 'update.html'
+    comment = get_object_or_404(Comment, pk=pk)
+    if comment.user == request.user:
+        form = CommentForm(request.POST or None, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        context = {"form": form}
+        return render(request, template, context)
+
+
+def comment_delete_manager(request, pk):
+    template = 'delete.html'
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.user.is_staff:
+        if request.method == 'POST':
+            comment.delete()
+            return redirect('/product/manager')
+        context = {"comment": comment}
+        return render(request, template, context)
+
+
+def comment_update_manager(request, pk):
+    template = 'update.html'
+    comment = get_object_or_404(Comment, pk=pk)
+
+    form = CommentForm(request.POST or None, instance=comment)
+    if request.user.is_staff:
+        if form.is_valid():
+            form.save()
+            return redirect('/product/manager')
+        context = {"form": form}
+        return render(request, template, context)
+

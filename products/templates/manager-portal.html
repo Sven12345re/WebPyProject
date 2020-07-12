@@ -1,0 +1,47 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+{% extends 'home.html' %}
+{% block title %}Manager{% endblock %}
+{% block content %}
+    {% if request.user.is_staff %}
+        <h1 class="ml-5 mb-5">Manager-Portal</h1>
+        <h2 class="ml-5">Alle Kommentare</h2>
+        <div class="d-flex align-content-around flex-wrap ml-5">
+
+            {% for comment in comments %}
+
+                {% if comment.get_report_count >= 2 %}
+                    <div class="bg-danger p-2 m-2 border border-dark" style="width: 200px">
+                        <div>{{ comment.get_report_count }} mal gemeldet</div>
+                        <div>{{ comment }}</div>
+                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
+                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
+                    </div>
+                {% elif comment.get_report_count > 0 %}
+                    <div class="bg-warning p-2 m-2 border border-dark" style="width: 200px">
+                        <div>{{ comment.get_report_count }} mal gemeldet</div>
+                        <div>{{ comment }}</div>
+                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
+                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
+                    </div>
+                {% else %}
+                    <div class="p-2 m-2 border border-dark" style="width: 200px">
+                        <div>{{ comment.get_report_count }} mal gemeldet</div>
+                        <div>{{ comment }}</div>
+                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
+                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
