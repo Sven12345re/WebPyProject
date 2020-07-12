@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 from .forms import ProductForm, CommentForm, SearchForm
 from .models import Product, Comment
+from decimal import Decimal, ROUND_HALF_UP
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
@@ -22,8 +23,6 @@ class ProductDetailView(DetailView):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
-    comment_id = kwargs['pk']
-    comment = Comment.objects.get(id=comment_id)
 
     # Add comment
     if request.method == 'POST':
@@ -35,21 +34,22 @@ def product_detail(request, **kwargs):
         else:
             print(form.errors)
 
-    if(product.get_upvotes_count() > 0):
-        vote = (product.get_upvotes_count() * 100 / (product.get_upvotes_count() + product.get_downvotes_count()))
+    comments = Comment.objects.filter(product=product).order_by('-id')
+    averageRate = comments.values('rate')
+    rate_all = 0
+    for rate in averageRate:
+        rate_all = rate_all + rate['rate']
+
+    if rate_all > 0:
+        average = Decimal(rate_all / len(averageRate)).quantize(0, ROUND_HALF_UP)
     else:
-        vote = 0
-    comments = Comment.objects.filter(product=product)
+        average = 0
     context = {'that_one_product': product,
                'comments_for_that_one_product': comments,
-               'upvotes': product.get_upvotes_count(),
-               'downvotes': product.get_downvotes_count(),
-               #'like': comment.get_upvotes_count(),
-               #'dislike': comment.get_downvotes_count(),
-               #'report': comment.get_report_count(),
                'vote': vote,
-
+               'averageRate': average,
                'comment_form': CommentForm}
+
     return render(request, 'product-detail.html', context)
 
 
@@ -161,7 +161,6 @@ def product_list(request):
                        'show_results': True}
             return render(request, 'product-list.html', context)
 
-
     else:
         form_in_function_based_view = SearchForm()
         context = {'form': form_in_function_based_view,
@@ -169,10 +168,19 @@ def product_list(request):
                    'show_results': True}
         return render(request, 'product-list.html', context)
 
+
 def like(request, pk: int, comment_pk: int, Like_or_not: str):
     comment = Comment.objects.get(id=comment_pk)
     user = request.user
-    comment.like(user, Like_or_not)
+    alreadyLiket = False
+    for userId in comment.get_upvotes().values('user_id'):
+        if user.id == userId['user_id']:
+            alreadyLiket = True
+            continue
+
+    if not alreadyLiket:
+        comment.like(user, Like_or_not)
+
     return redirect('product-detail', pk=pk)
 
 

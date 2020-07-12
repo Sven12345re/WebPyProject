@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Product(models.Model):
     Product_TYPES = [
         ('E', 'Electric'),  # Wert und lesbare Form
@@ -28,7 +29,7 @@ class Product(models.Model):
                              )
     Img = models.ImageField(upload_to='products/', blank=True)
 
-    document = models.FileField(upload_to='documents/' ,blank=True)
+    document = models.FileField(upload_to='documents/', blank=True)
 
     class Meta:
         ordering = ['title', '-type']
@@ -45,9 +46,6 @@ class Product(models.Model):
         upvotes = Vote.objects.filter(up_or_down='up',
                                       product=self)
         return upvotes
-
-    def get_upvotes_count(self):
-        return len(self.get_upvotes())
 
     def get_downvotes(self):
         downvotes = Vote.objects.filter(up_or_down='down',
@@ -76,12 +74,15 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rate = models.FloatField(max_length=500, null=True)
-
+    actualUser = 0
 
     class Meta:
         ordering = ['timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
+    def average_rate(self):
+        print("Rate")
 
     def get_comment_prefix(self):
         if len(self.text) > 50:
@@ -97,7 +98,8 @@ class Comment(models.Model):
 
     def get_upvotes(self):
         like = Like.objects.filter(Like_or_not='LIKe',
-                                      commnet=self)
+                                   commnet=self)
+
         return like
 
     def get_upvotes_count(self):
@@ -105,21 +107,21 @@ class Comment(models.Model):
 
     def get_downvotes(self):
         dislike = Like.objects.filter(Like_or_not='Dislike',
-                                        commnet=self)
+                                      commnet=self)
         return dislike
 
     def get_downvotes_count(self):
         return len(self.get_downvotes())
 
     def like(self, user, Like_or_not):
-        vote = Like.objects.create(Like_or_not=Like_or_not,
-                                   user=user,
-                                   commnet=self
-                                   )
+        Like.objects.create(Like_or_not=Like_or_not,
+                            user=user,
+                            commnet=self
+                            )
 
     def get_report(self):
         report = Report.objects.filter(report='REPORT',
-                                        commnet=self)
+                                       commnet=self)
         return report
 
     def get_report_count(self):
@@ -127,9 +129,9 @@ class Comment(models.Model):
 
     def report(self, user, report):
         vote = Report.objects.create(report=report,
-                                   user=user,
-                                   commnet=self
-                                   )
+                                     user=user,
+                                     commnet=self
+                                     )
 
 
 class Vote(models.Model):
@@ -156,12 +158,12 @@ class Like(models.Model):
     ]
 
     Like_or_not = models.CharField(max_length=1,
-                                  choices=Like_TYPES,
-                                  )
+                                   choices=Like_TYPES,
+                                   )
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
+    commnet = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.Like_or_not + ' on ' + self.commnet.text + ' by ' + self.user.username
@@ -174,11 +176,11 @@ class Report(models.Model):
     ]
 
     report = models.CharField(max_length=1,
-                                  choices=REPORT_TYPES,
-                                  )
+                              choices=REPORT_TYPES,
+                              )
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    commnet = models.ForeignKey(Comment,on_delete=models.CASCADE)
+    commnet = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.report + ' on ' + self.commnet.text
