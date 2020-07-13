@@ -11,6 +11,9 @@
 {% extends 'home.html' %}
 {% block title %}Manager{% endblock %}
 {% block content %}
+    <div class="container">
+     <div class="row">
+      <div class="col">
     {% if request.user.is_staff %}
         <h1 class="ml-5 mb-5">Manager-Portal</h1>
         <h2 class="ml-5">Alle Kommentare</h2>
@@ -44,4 +47,31 @@
             {% endfor %}
         </div>
     {% endif %}
+ </div>
+
+     <div class="col">
+      <h1 class="ml-5 mb-5">Manager-Portal</h1>
+        <h2 class="ml-5">All products</h2>
+
+         <div class="d-flex align-content-around flex-wrap ml-5">
+         <ul>
+              {% for product in products %}
+                   <div class="product-info">
+
+                            <p class="title"><b>{{ product.title }}</b></p><br>
+
+                       {% if product.image %}
+                            <a href="{{ product.document.url }}"> document</a>
+                        {% endif %}
+                       <br>
+                        <a style="color: #ff6d0a;" href="{% url "deleteManagerproduct" pk=product.id %}">delete this product</a>
+                    </div>
+
+             {% endfor %}
+         </ul>
+         </div>
+    </div>
+     </div>
+
+ </div>
 {% endblock %}

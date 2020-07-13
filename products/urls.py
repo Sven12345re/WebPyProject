@@ -17,5 +17,8 @@ urlpatterns = [
     path('update/<int:pk>', views.comment_update, name='update'),
     path('deleteManager/<int:pk>', views.comment_delete_manager, name='deleteManager'),
     path('updateManager/<int:pk>', views.comment_update_manager, name='updateManager'),
+    path('deleteManagerproduct/<int:pk>', views.delete_product_manager, name='deleteManagerproduct'),
+   # path('EditManagerproduct/<int:pk>', views.edit_product_manager, name='editManagerproduct'),
+
 
 ]
