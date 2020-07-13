@@ -194,7 +194,9 @@ def report(request, pk: int, comment_pk: int, report: str):
 
 def manager_portal(request, **kwargs):
     comments = Comment.objects.all()
-    context = {'comments': comments}
+    products = Product.objects.all()
+    context = {'comments': comments,
+               'products': products}
     return render(request, 'manager-portal.html', context)
 
 
@@ -232,6 +234,28 @@ def comment_delete_manager(request, pk):
         context = {"comment": comment}
         return render(request, template, context)
 
+
+
+def delete_product_manager(request, pk):
+    template = 'delete.html'
+    product = get_object_or_404(Product, pk=pk)
+    if request.user.is_staff:
+        if request.method == 'POST':
+            product.delete()
+            return redirect('/product/manager')
+        context = {"product": product}
+        return render(request, template, context)
+
+#def edit_product_manager(request, pk):
+ #   template = 'update.html'
+  #  product = get_object_or_404(Product, pk=pk)
+    #form = ProductForm(request.POST or None, instance=product)
+   # if request.user.is_staff:
+     #   if form.is_valid():
+      #      form.save()
+       #     return redirect('/product/manager')
+        #context = {"form": form}
+        #return render(request, template, context)
 
 def comment_update_manager(request, pk):
     template = 'update.html'
