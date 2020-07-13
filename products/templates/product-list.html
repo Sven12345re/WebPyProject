@@ -9,37 +9,39 @@
             <div class="titelsuche filter">
                 <b>Suche nach Titel:</b>
                 <form method="POST">
-                {% csrf_token %}
-                <div class="search">
-                    {{ form.title }}
-                    <button class="submit-search" type="submit">Search</button>
-                </div>
-            </form>
+                    {% csrf_token %}
+                    <div class="search">
+                        {{ form.title }}
+                        <button class="submit-search" type="submit">Search</button>
+                    </div>
+                </form>
             </div>
             <hr>
             <div class="filterGenre filter">
                 <b>Filtern nach Genre: </b>
                 <form method="POST">
-                {% csrf_token %}
-                <div class="search">
-                    {{ form.type }}
-                    <button class="submit-search" type="submit">Filter</button>
-                </div>
-            </form>
+                    {% csrf_token %}
+                    <div class="search">
+                        {{ form.type }}
+                        <button class="submit-search" type="submit">Filter</button>
+                    </div>
+                </form>
             </div>
             <hr>
             <div class="filterUser filter">
                 <b>Filtern nach User: </b>
                 <form method="POST">
-                {% csrf_token %}
-                <div class="search">
-                    {{ form.user }}
-                    <button class="submit-search" type="submit">Filter</button>
-                </div>
-            </form>
+                    {% csrf_token %}
+                    <div class="search">
+                        {{ form.user }}
+                        <button class="submit-search" type="submit">Filter</button>
+                    </div>
+                </form>
             </div>
             <hr>
-            <div>Benutzerdefinierte suche <a href="{% url 'product-search' %}" class="hrefToSearch"><u><b>hier</b></u></a>!</div>
+            <div>Benutzerdefinierte suche <a href="{% url 'product-search' %}"
+                                             class="hrefToSearch"><u><b>hier</b></u></a>!
+            </div>
 
         </div>
         <div class="product-page">
@@ -47,7 +49,11 @@
                 {% for product in products_found %}
                     <div class="product-info">
                         <a href="{% url 'product-detail' product.id %}">
-                            <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
+                            {% if product.Img %}
+                                <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
+                            {% else %}
+                                <img src="../static/products/Star.png" alt="" style="max-height:200px">
+                            {% endif %}
                             <br>
                             <p class="title"><b>{{ product.title }}</b></p><br>
                             <p>Genre: {{ product.get_type_display }}</p>
@@ -55,7 +61,7 @@
 
 
                         </a>
-                        {% if product.image %}
+                        {% if product.document %}
                             <a href="{{ product.document.url }}"> document</a>
                         {% endif %}
                     </div>

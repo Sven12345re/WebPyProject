@@ -11,10 +11,19 @@ class ProductForm(forms.ModelForm):
         }
 
 
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['Img', 'document']
+        widgets = {
+            'user': forms.HiddenInput(),
+        }
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['text', 'rate',]
+        fields = ['text', 'rate', ]
         widgets = {
             'user': forms.HiddenInput(),
             'book': forms.HiddenInput(),
@@ -26,4 +35,4 @@ class SearchForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'Desc',  'type', 'date_published',  'user']
+        fields = ['title', 'Desc', 'type', 'date_published', 'user']

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, reverse
 from . import views
 from django.conf import settings
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('updateManager/<int:pk>', views.comment_update_manager, name='updateManager'),
     path('deleteManagerproduct/<int:pk>', views.delete_product_manager, name='deleteManagerproduct'),
    # path('EditManagerproduct/<int:pk>', views.edit_product_manager, name='editManagerproduct'),
+    path('addProductPhoto/<int:pk>', views.add_product_photo_manager, name='addProductPhotoManager')
 
 
 ]

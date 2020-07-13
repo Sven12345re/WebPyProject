@@ -22,7 +22,9 @@
     <link rel="stylesheet" type="text/css" href="{% static "products/review.css" %}">
     <div class="d-flex flex-row">
         <div class="card mb-3 d-flex flex-row card-img-top m-5 p-5" style="width: min-content">
-            <img src="{{ that_one_product.Img.url }}" style="width:250px" height="250px">
+            {% if that_one_product.Img %}
+                <img src="{{ that_one_product.Img.url }}" style="width:250px" height="250px">
+            {% endif %}
             <div class="ml-5" style="width: 20rem;">
                 <h2 class="card-title"> {{ that_one_product.title }}</h2>
                 <p class="card-text"> {{ that_one_product.Desc }}</p>
@@ -32,7 +34,9 @@
                     <small class="text-muted"> Released on: {{ that_one_product.date_published }}</small>
                     <br>
                     <small class="text-muted"> Released by :{{ that_one_product.user }}</small><br>
-                    <a href="{{ that_one_product.document.url }}"> document info</a>
+                    {% if that_one_product.document %}
+                        <a href="{{ that_one_product.document.url }}"> document info</a>
+                    {% endif %}
                     <br>
                     <div class="mt-5">
                         {% if averageRate >= 1.0 and  averageRate <= 1.9 %}

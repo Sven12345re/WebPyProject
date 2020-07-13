@@ -12,66 +12,80 @@
 {% block title %}Manager{% endblock %}
 {% block content %}
     <div class="container">
-     <div class="row">
-      <div class="col">
-    {% if request.user.is_staff %}
-        <h1 class="ml-5 mb-5">Manager-Portal</h1>
-        <h2 class="ml-5">Alle Kommentare</h2>
-        <div class="d-flex align-content-around flex-wrap ml-5">
+        <div class="row">
+            <div class="col">
+                {% if request.user.is_staff %}
+                    <h1 class="ml-5 mb-5">Manager-Portal</h1>
+                    <h2 class="ml-5">Alle Kommentare</h2>
+                    <div class="d-flex align-content-around flex-wrap ml-5">
+                        {% for comment in comments %}
 
-            {% for comment in comments %}
+                            {% if comment.get_report_count >= 2 %}
+                                <div class="bg-danger p-2 m-2 border border-dark" style="width: 200px">
+                                    <div>{{ comment.get_report_count }} mal gemeldet</div>
+                                    <div>{{ comment }}</div>
+                                    <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete
+                                        Your comment</a>
+                                    <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your
+                                        Comment</a>
+                                </div>
+                            {% elif comment.get_report_count > 0 %}
+                                <div class="bg-warning p-2 m-2 border border-dark" style="width: 200px">
+                                    <div>{{ comment.get_report_count }} mal gemeldet</div>
+                                    <div>{{ comment }}</div>
+                                    <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete
+                                        Your comment</a>
+                                    <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your
+                                        Comment</a>
+                                </div>
+                            {% else %}
+                                <div class="p-2 m-2 border border-dark" style="width: 200px">
+                                    <div>{{ comment.get_report_count }} mal gemeldet</div>
+                                    <div>{{ comment }}</div>
+                                    <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete
+                                        Your comment</a>
+                                    <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your
+                                        Comment</a>
+                                </div>
+                            {% endif %}
 
-                {% if comment.get_report_count >= 2 %}
-                    <div class="bg-danger p-2 m-2 border border-dark" style="width: 200px">
-                        <div>{{ comment.get_report_count }} mal gemeldet</div>
-                        <div>{{ comment }}</div>
-                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
-                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
-                    </div>
-                {% elif comment.get_report_count > 0 %}
-                    <div class="bg-warning p-2 m-2 border border-dark" style="width: 200px">
-                        <div>{{ comment.get_report_count }} mal gemeldet</div>
-                        <div>{{ comment }}</div>
-                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
-                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
-                    </div>
-                {% else %}
-                    <div class="p-2 m-2 border border-dark" style="width: 200px">
-                        <div>{{ comment.get_report_count }} mal gemeldet</div>
-                        <div>{{ comment }}</div>
-                        <a style="color: #ff6d0a; " href="{% url "deleteManager" pk=comment.id %}">Delete Your comment</a>
-                        <a style="color: #ff6d0a;" href="{% url "updateManager" pk=comment.id %}">Edit your Comment</a>
+                        {% endfor %}
                     </div>
                 {% endif %}
+            </div>
 
-            {% endfor %}
+            <div class="col">
+                <h1 class="ml-5 mb-5">Manager-Portal</h1>
+                <h2 class="ml-5">All products</h2>
+
+                <div class="d-flex align-content-around flex-wrap ml-5">
+                    <ul>
+                        {% for product in products %}
+                            <div class="product-info border border-dark m-5">
+
+                                <div><b>{{ product.title }}</b></div><br>
+                                {% if  product.document %}
+                                    <a href="{{ product.document.url }}"> document</a>
+                                    {% else %}
+                                    <div>Kein Dokument</div>
+                                {% endif %}
+                                <br>
+                                {% if product.Img %}
+                                    <img src="{{ product.Img.url }}" alt="" style="max-height:200px">
+                                {% else %}
+                                    <div>Kein Produktfoto</div>
+                                    <a href="{% url "addProductPhotoManager" pk=product.id %}">Add Productphoto</a>
+                                {% endif %}
+                                <br>
+                                <a style="color: #ff6d0a;" href="{% url "deleteManagerproduct" pk=product.id %}">delete
+                                    this product</a>
+                            </div>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-    {% endif %}
- </div>
 
-     <div class="col">
-      <h1 class="ml-5 mb-5">Manager-Portal</h1>
-        <h2 class="ml-5">All products</h2>
-
-         <div class="d-flex align-content-around flex-wrap ml-5">
-         <ul>
-              {% for product in products %}
-                   <div class="product-info">
-
-                            <p class="title"><b>{{ product.title }}</b></p><br>
-
-                       {% if product.image %}
-                            <a href="{{ product.document.url }}"> document</a>
-                        {% endif %}
-                       <br>
-                        <a style="color: #ff6d0a;" href="{% url "deleteManagerproduct" pk=product.id %}">delete this product</a>
-                    </div>
-
-             {% endfor %}
-         </ul>
-         </div>
     </div>
-     </div>
-
- </div>
 {% endblock %}

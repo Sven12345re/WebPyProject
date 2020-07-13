@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView
-from .forms import ProductForm, CommentForm, SearchForm
+from .forms import ProductForm, CommentForm, SearchForm, ProductUpdateForm
 from .models import Product, Comment
 from decimal import Decimal, ROUND_HALF_UP
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.views.generic.edit import UpdateView
 
 
 class ProductListView(ListView):
@@ -213,11 +214,12 @@ def comment_delete(request, pk):
 
 
 def comment_update(request, pk):
-    template = 'update.html'
+    template = 'product_update_form.html'
     comment = get_object_or_404(Comment, pk=pk)
     if comment.user == request.user:
         form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
+            print("Comment")
             form.save()
             return redirect('/')
         context = {"form": form}
@@ -235,7 +237,6 @@ def comment_delete_manager(request, pk):
         return render(request, template, context)
 
 
-
 def delete_product_manager(request, pk):
     template = 'delete.html'
     product = get_object_or_404(Product, pk=pk)
@@ -246,19 +247,8 @@ def delete_product_manager(request, pk):
         context = {"product": product}
         return render(request, template, context)
 
-#def edit_product_manager(request, pk):
- #   template = 'update.html'
-  #  product = get_object_or_404(Product, pk=pk)
-    #form = ProductForm(request.POST or None, instance=product)
-   # if request.user.is_staff:
-     #   if form.is_valid():
-      #      form.save()
-       #     return redirect('/product/manager')
-        #context = {"form": form}
-        #return render(request, template, context)
-
 def comment_update_manager(request, pk):
-    template = 'update.html'
+    template = 'product_update_form.html'
     comment = get_object_or_404(Comment, pk=pk)
 
     form = CommentForm(request.POST or None, instance=comment)
@@ -269,3 +259,14 @@ def comment_update_manager(request, pk):
         context = {"form": form}
         return render(request, template, context)
 
+
+def add_product_photo_manager(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ProductUpdateForm(request.POST or None, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+        return redirect('manager-portal')
+    else:
+        form = ProductUpdateForm
+    return render(request, 'add-product-photo.html', {'form': form})
