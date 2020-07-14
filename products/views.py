@@ -263,10 +263,10 @@ def comment_update_manager(request, pk):
 def add_product_photo_manager(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
-        form = ProductUpdateForm(request.POST or None, request.FILES, instance=product)
+        form = ProductForm(request.POST or None, request.FILES, instance=product)
         if form.is_valid():
             form.save()
         return redirect('manager-portal')
     else:
-        form = ProductUpdateForm
+        form = ProductUpdateForm(request.POST or None, instance=product)
     return render(request, 'add-product-photo.html', {'form': form})

@@ -14,7 +14,7 @@ class ProductForm(forms.ModelForm):
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['Img', 'document']
+        fields = ['title', 'Desc', 'Img', 'type', 'date_published', 'document']
         widgets = {
             'user': forms.HiddenInput(),
         }
