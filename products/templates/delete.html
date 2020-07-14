@@ -1,7 +1,21 @@
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+
 {% block content %}
+    <div class="container">
+    <div class="row justify-content-md-center">
+       <div class="col-md-auto" style="padding: 200px">
 <form class="" method="post">
   {% csrf_token %}
+
   Are you sure want to delete it?
-  <input type="submit" name="" value="submit">
+    <br>
+  <input type="submit"  class="btn btn-default" name="" value="submit">
+      <a href="/"><p> Cancel</p></a>
 </form>
+         </div>
+    </div>
+    </div>
 {% endblock %}
