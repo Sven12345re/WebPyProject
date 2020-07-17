@@ -45,28 +45,21 @@
 
         </div>
         <div class="product-page">
-            <ul>
-                {% for product in products_found %}
-                    <div class="product-info">
-                        <a href="{% url 'product-detail' product.id %}">
-                            {% if product.Img %}
-                                <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
-                            {% else %}
-                                <img src="../static/products/Star.png" alt="" style="max-height:200px">
-                            {% endif %}
-                            <br>
-                            <p class="title"><b>{{ product.title }}</b></p><br>
-                            <p>Genre: {{ product.get_type_display }}</p>
-                            <p>Erstellt von:{{ product.user }}</p>
-
-
-                        </a>
-                        {% if product.document %}
-                            <a href="{{ product.document.url }}"> document</a>
+            {% for product in products_found %}
+                <div class="product-info">
+                    <a href="{% url 'product-detail' product.id %}">
+                        {% if product.Img %}
+                            <img src="{{ product.Img.url }}" alt="tets" style="max-height:200px">
+                        {% else %}
+                            <img src="../static/products/Star.png" alt="" style="max-height:200px">
                         {% endif %}
-                    </div>
-                {% endfor %}
-            </ul>
+                        <br>
+                        <p class="title"><b>{{ product.title }}</b></p><br>
+                        <div class="genre">Genre: {{ product.get_type_display }}</div>
+                        <div class="user">Erstellt von:{{ product.user }}</div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

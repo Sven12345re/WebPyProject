@@ -13,8 +13,8 @@
 {% block content %}
     <h1 class="ml-5 mb-5">Manager-Portal</h1>
     <div class="d-flex flex-row">
-        <div style="width: 40%">
-            {% if request.user.is_staff %}
+        {% if request.user.is_staff %}
+            <div style="width: 40%">
                 <h2 class="ml-5">Alle Kommentare</h2>
                 <div class="d-flex align-content-around flex-wrap ml-5">
                     {% for comment in comments %}
@@ -28,7 +28,8 @@
                             <div><b>{{ comment.get_report_count }}</b> mal gemeldet</div>
                             <div class="d-flex flex-row">
                                 <div>Kommentar: "{{ comment.text }}"</div>
-                                <a class="mt-1 ml-2" style="color: #333;" href="{% url "updateManager" pk=comment.id %}">
+                                <a class="mt-1 ml-2" style="color: #333;"
+                                   href="{% url "updateManager" pk=comment.id %}">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -49,52 +50,52 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div style="width: 60%">
-            <h2 class="pl-5">All products</h2>
-            <div class="d-flex align-content-around flex-wrap ml-5">
-                {% for product in products %}
-                    <div class="p-2 m-2 border border-dark" style="width: 200px">
-                        <div class="d-flex flex-row">
-                            <div><b>{{ product.title }}</b></div>
-                            <a class="mt-1 ml-2" style="color: #333;"
-                               href="{% url "addProductPhotoManager" pk=product.id %}">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
-                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
-                                    <path fill-rule="evenodd"
-                                          d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
-                                </svg>
-                            </a>
-                            <a class="mt-1 ml-1" style="color: #ff6d0a;"
-                               href="{% url "deleteManagerproduct" pk=product.id %}">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill"
-                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div>{{ product.Desc }}</div>
-                        {% if  product.document %}
-                            <a href="{{ product.document.url }}"> document</a>
-                            <br>
-                        {% else %}
-                            <div class="text-danger">Kein Dokument</div>
-                        {% endif %}
-                        {% if product.Img %}
-                            <img src="{{ product.Img.url }}" alt="" style="width:100px; height: 50px">
-                            <br>
-                        {% else %}
-                            <div class="text-danger">Kein Produktfoto</div>
-                        {% endif %}
-                    </div>
-
-                {% endfor %}
             </div>
-        </div>
+
+            <div style="width: 60%">
+                <h2 class="pl-5">All products</h2>
+                <div class="d-flex align-content-around flex-wrap ml-5">
+                    {% for product in products %}
+                        <div class="p-2 m-2 border border-dark" style="width: 200px">
+                            <div class="d-flex flex-row">
+                                <div><b>{{ product.title }}</b></div>
+                                <a class="mt-1 ml-2" style="color: #333;"
+                                   href="{% url "addProductPhotoManager" pk=product.id %}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                    </svg>
+                                </a>
+                                <a class="mt-1 ml-1" style="color: #ff6d0a;"
+                                   href="{% url "deleteManagerproduct" pk=product.id %}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div>{{ product.Desc }}</div>
+                            {% if  product.document %}
+                                <a href="{{ product.document.url }}"> document</a>
+                                <br>
+                            {% else %}
+                                <div class="text-danger">Kein Dokument</div>
+                            {% endif %}
+                            {% if product.Img %}
+                                <img src="{{ product.Img.url }}" alt="" style="width:100px; height: 50px">
+                                <br>
+                            {% else %}
+                                <div class="text-danger">Kein Produktfoto</div>
+                            {% endif %}
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

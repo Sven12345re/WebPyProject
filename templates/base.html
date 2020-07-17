@@ -15,7 +15,6 @@
     <a class="navPoint" href="{% url 'allProfile' %}">Zu den Profilen</a>
     <a class="navPoint" href="{% url 'product-create' %}">Produkt erstellen</a>
     <a class="navPoint" href="{% url 'product-list' %}">Produktübersicht</a>
-    <a class="navPoint" href="{% url 'profile' %}">Profile</a>
     {% if user.is_authenticated %}
         <select class="navPoint" name="profile" onchange="window.location.href=this.value;">
             <option><i class='fas fa-user'></i></option>

@@ -21,177 +21,150 @@
     <link rel="stylesheet" type="text/css" href="{% static "products/product_details_style.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "products/review.css" %}">
     <div class="d-flex flex-row">
-        <div class="card mb-3 d-flex flex-row card-img-top m-5 p-5" style="width: min-content">
+        <div class="card mb-3 d-flex flex-row card-img-top m-5 p-5 mx-auto" style="width: min-content">
             {% if that_one_product.Img %}
                 <img src="{{ that_one_product.Img.url }}" style="width:250px" height="250px">
             {% endif %}
             <div class="ml-5" style="width: 20rem;">
                 <h2 class="card-title"> {{ that_one_product.title }}</h2>
                 <p class="card-text"> {{ that_one_product.Desc }}</p>
+                {% if that_one_product.document %}
+                    <a href="{{ that_one_product.document.url }}"> document info</a>
+                {% else %}
+                    <p class="text-warning">Kein Dokument angelegt</p>
+                {% endif %}
                 <div class="card-text">
                     <small class="text-muted">type: {{ that_one_product.get_type_display }}</small>
                     <br>
                     <small class="text-muted"> Released on: {{ that_one_product.date_published }}</small>
                     <br>
-                    <small class="text-muted"> Released by :{{ that_one_product.user }}</small><br>
-                    {% if that_one_product.document %}
-                        <a href="{{ that_one_product.document.url }}"> document info</a>
-                    {% endif %}
+                    <small class="text-muted"> Released by: {{ that_one_product.user }}</small><br>
                     <br>
                     <div class="mt-5">
-                        {% if averageRate >= 1.0 and  averageRate <= 1.9 %}
+                        {% if averageRate >= 1.0 %}
                             <i class="fa fa-star" aria-hidden="true"></i>
                         {% endif %}
-                        {% if averageRate >= 2.0 and  averageRate <= 2.9 %}
+                        {% if averageRate >= 2.0 %}
                             <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-
                         {% endif %}
-                        {% if averageRate >= 3.0 and  averageRate <= 3.9 %}
+                        {% if averageRate >= 3.0 %}
                             <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-
                         {% endif %}
-                        {% if averageRate >= 4.0 and  averageRate <= 4.9 %}
+                        {% if averageRate >= 4.0 %}
                             <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-
-
                         {% endif %}
                         {% if averageRate >= 5 %}
                             <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
                         {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="card mb-3 card-img-top my-5 p-5" style="width: 400px">
-            <h5>24,99 €</h5>
-            <small>Preise inkl. temporär gesenkter USt. – ggf. Variation an der Kasse je nach Lieferadresse.
-                Informationen zur gesenkten USt. in Deutschland.</small>
-            <p style="color: green" class="mt-3">Auf Lager</p>
-            <button>Kaufen</button>
         </div>
     </div>
     <hr>
-
     <div class="ml-5">
-        <b style="color: crimson">Do you have a comment for this book?</b><br>
-        <form method="POST">
-
-            {% csrf_token %}
-            {{ comment_form.text }}
-            {{ comment_form.rate }}
-
-
-            <b style="color: crimson">please give a number between 1 and 5</b><br>
-            <br>
-            <button type="submit" class="btn btn-outline-secondary">Add comment</button>
-        </form>
-
-    </div>
-
-
-
-
-
-    <div class="row">
-    {% for comment in comments_for_that_one_product %}
-        <div class="col-md-11">
-
-            <div class="media g-mb-30 media-comment">
-                <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
-                     src="{{ comment.user.profile.profile_picture.url }}" alt="Image Description">
-                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                    <div class="g-mb-15">
-                        <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ comment.user.username }}</h5>
-
-                        <a class="report" href="{% url 'report-vote' that_one_product.id comment.id 'REPORT' %}"
-                           style="float: right">{{ comment.get_report_count }}
-
-                            <i class="fa fa-flag" aria-hidden="true"></i>
-                            report this Comment
-
-
-                        </a>
-                        {% if comment.get_report_count >= 2 %}
-                            <div class="alert alert-danger">
-                                <strong>Danger!</strong>spam comment or Racism please ignore that one Comment
-
-                            </div>
-                        {% endif %}
-                        <span class="g-color-gray-dark-v4 g-font-size-12">{{ comment.timestamp }}</span>
-                    </div>
-
-                    <p>{{ comment.text }}</p>
-                    <ul class="list-inline d-sm-flex my-0">
-                        <li class="list-inline-item g-mr-20">
-                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                               href="{% url 'comment-vote' that_one_product.id comment.id 'LIKe' %}">
-                                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-                                {{ comment.get_upvotes_count }}
-
-                            </a>
-                        </li>
-                        &nbsp;&nbsp;&nbsp;
-                        <li class="list-inline-item g-mr-20">
-                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                               href="{% url 'comment-vote' that_one_product.id comment.id 'Dislike' %}">
-                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                                {{ comment.get_downvotes_count }}
-                            </a>
-                        </li>
-
-
-                        <li class="list-inline-item ml-auto">
-                            {% if comment.rate >= 1.0 and  comment.rate <= 1.9 %}
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            {% endif %}
-                            {% if comment.rate >= 2.0 and  comment.rate <= 2.9 %}
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-
-                            {% endif %}
-                            {% if comment.rate >= 3.0 and  comment.rate <= 3.9 %}
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-
-                            {% endif %}
-                            {% if comment.rate >= 4.0 and  comment.rate <= 4.9 %}
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-
-
-                            {% endif %}
-                            {% if comment.rate >= 5 %}
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            {% endif %}
-                        </li>
-                    </ul>
-                    {% if comment.user == request.user %}
-                        <a style="color: #ff6d0a; " href="{% url "delete" pk=comment.id %}">Delete Your comment</a>
-                        <a style="color: #ff6d0a;" href="{% url "update" pk=comment.id %}">Edit your Comment</a>
-                    {% endif %}
-                </div>
-            </div>
+        <div>
+            <b style="color: coral;">Do you have a comment for this book?</b><br>
+            {% if user.is_authenticated %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ comment_form.text }}
+                    {{ comment_form.rate }}
+                    <b style="color: crimson">please give a number between 1 and 5</b><br>
+                    <br>
+                    <button type="submit" class="btn btn-outline-secondary">Add comment</button>
+                </form>
+            {% else %}
+                <div class="mb-5 bg-warning" style="width: max-content"><small>Du bist nicht eingeloggt. Logge dich ein
+                    für ein Kommentar</small></div>
+            {% endif %}
         </div>
+        <div class="mb-5">
+            {% for comment in comments_for_that_one_product %}
+                <div class="col-md-11">
+                    <div class="media g-mb-30 media-comment">
+                        <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
+                             src="{{ comment.user.profile.profile_picture.url }}" alt="Image Description">
+                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                            <div class="g-mb-15">
+                                {% if comment.get_report_count >= 2 %}
+                                    <div class="alert alert-danger">
+                                        <strong>Danger!</strong>spam comment or Racism please ignore that one Comment
+                                    </div>
+                                {% endif %}
+                                <div class="d-flex flex-row">
+                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ comment.user.username }}</h5>
+                                    <div class="ml-2">
+                                        {% if comment.rate >= 1.0 %}
+                                            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                                        {% endif %}
+                                        {% if comment.rate >= 2.0 %}
+                                            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                                        {% endif %}
+                                        {% if comment.rate >= 3.0 %}
+                                            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                                        {% endif %}
+                                        {% if comment.rate >= 4.0 %}
+                                            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                                        {% endif %}
+                                        {% if comment.rate >= 5 %}
+                                            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="ml-3">
+                                        {% if comment.user == request.user %}
+                                            <a style="color: #ff6d0a;" href="{% url "update" pk=comment.id %}">
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                          d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                                    <path fill-rule="evenodd"
+                                                          d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                                </svg>
+                                            </a>
+                                            <a style="color: #ff6d0a; " href="{% url "delete" pk=comment.id %}">
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                                     class="bi bi-trash-fill"
+                                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                                </svg>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <a class="report" href="{% url 'report-vote' that_one_product.id comment.id 'REPORT' %}"
+                                   style="float: right">{{ comment.get_report_count }}
 
-    {% endfor %}
+                                    <i class="fa fa-flag" aria-hidden="true"></i>
+                                    report this Comment
+                                </a>
+                                <span class="g-color-gray-dark-v4 g-font-size-12">{{ comment.timestamp }}</span>
+                            </div>
+                            <p>{{ comment.text }}</p>
+                            <ul class="list-inline d-sm-flex my-0">
+                                <li class="list-inline-item g-mr-20">
+                                    <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
+                                       href="{% url 'comment-vote' that_one_product.id comment.id 'LIKe' %}">
+                                        <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                                        {{ comment.get_upvotes_count }}
+
+                                    </a>
+                                </li>
+                                <li class="list-inline-item g-mr-20">
+                                    <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
+                                       href="{% url 'comment-vote' that_one_product.id comment.id 'Dislike' %}">
+                                        <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                        {{ comment.get_downvotes_count }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 
 {% endblock %}

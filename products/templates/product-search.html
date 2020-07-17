@@ -1,63 +1,53 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}Products list{% endblock %}
 {% block content %}
-     {% load static %}
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "products/product_style.css" %}">
     <div class="container">
-    <div class="row justify-content-center">
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-    <h2>Search product</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-outline-dark btn-lg btn-block" style="background-color: #df7b49">Search</button>
-    </form>
-          </div>
-      </div>
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Search product</h2>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-outline-dark btn-lg btn-block"
+                                    style="background-color: #df7b49">Search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-      </div>
     <br>
     <br>
 
     {% if show_results %}
-        <b>Products found:</b><br>
+        <b class="ml-5">Products found:</b><br>
         <br>
         {{ products_found.datetimes }}
-
-        <ul>
-        {% for book in products_found %}
-
-<div class=" fle">
-
-
-            <div class="card" style="width: 18rem;">
-                <img src="{{ book.Img.url }}" class="card-img-top" alt="...">
-                 <div class="card-body">
-                <h5 class="card-title">{{ book.get_full_title }}</h5>
-                <p class="card-text"> {{ book.get_type_display }}</p>
-                     <small>  posted by :{{ book.user }}</small>
-                     <br>
-                <a href="../show/{{ book.id }}/" class="btn " style="background-color: #df7b49">check the Product</a>
+        <div class="d-flex align-content-around flex-wrap ml-5 mb-3">
+            {% for product in products_found %}
+                <div class="card" style="width: min-content; height: 28em">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.get_full_title }}</h5>
+                        <img src="{{ product.Img.url }}" alt="" style="height: 7em">
+                        <br>
+                        <p class="card-text"> {{ product.get_type_display }}</p>
+                        <small> posted by: {{ product.user }}</small>
+                        <br>
+                        <a href="../show/{{ product.id }}/" class="btn " style="background-color: #df7b49">check the
+                            Product</a>
+                    </div>
                 </div>
-            </div>
-
-
-
-
-
-
- </div>
-        {% endfor %}
-
-        </ul>
-
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}

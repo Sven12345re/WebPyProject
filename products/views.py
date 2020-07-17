@@ -162,7 +162,6 @@ def product_list(request):
                        'products_found': products_found,
                        'show_results': True}
             return render(request, 'product-list.html', context)
-
     else:
         form_in_function_based_view = SearchForm()
         context = {'form': form_in_function_based_view,
@@ -179,6 +178,10 @@ def like(request, pk: int, comment_pk: int, Like_or_not: str):
         if user.id == userId['user_id']:
             alreadyLiket = True
             continue
+    for userId in comment.get_downvotes().values('user_id'):
+        if user.id == userId['user_id']:
+            alreadyLiket = True
+            continue
 
     if not alreadyLiket:
         comment.like(user, Like_or_not)
@@ -189,7 +192,15 @@ def like(request, pk: int, comment_pk: int, Like_or_not: str):
 def report(request, pk: int, comment_pk: int, report: str):
     comment = Comment.objects.get(id=comment_pk)
     user = request.user
-    comment.report(user, report)
+    alreadyReportet = False
+    for userId in comment.get_report().values('user_id'):
+        print(userId['user_id'])
+        if user.id == userId['user_id']:
+            alreadyReportet = True
+            continue
+
+    if not alreadyReportet:
+        comment.report(user, report)
     return redirect('product-detail', pk=pk)
 
 
@@ -208,7 +219,7 @@ def comment_delete(request, pk):
 
         if request.method == 'POST':
             comment.delete()
-            return redirect('/')
+            return redirect('product-list')
         context = {"comment": comment}
         return render(request, template, context)
 
@@ -221,7 +232,7 @@ def comment_update(request, pk):
         if form.is_valid():
             print("Comment")
             form.save()
-            return redirect('/')
+            return redirect('product-list')
         context = {"form": form}
         return render(request, template, context)
 
@@ -247,6 +258,7 @@ def delete_product_manager(request, pk):
         context = {"product": product}
         return render(request, template, context)
 
+
 def comment_update_manager(request, pk):
     template = 'product_update_form.html'
     comment = get_object_or_404(Comment, pk=pk)
@@ -260,12 +272,13 @@ def comment_update_manager(request, pk):
         return render(request, template, context)
 
 
-def add_product_photo_manager(request, pk):
+def edit_product_manager(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
-        form = ProductForm(request.POST or None, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
+        if request.user.is_staff:
+            form = ProductForm(request.POST or None, request.FILES, instance=product)
+            if form.is_valid():
+                form.save()
         return redirect('manager-portal')
     else:
         form = ProductUpdateForm(request.POST or None, instance=product)
